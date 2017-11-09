@@ -25,8 +25,6 @@
         "@ionic-native/status-bar": "4.3.2",
         "@ionic/storage": "2.0.1",
         "cordova-android": "^6.2.3",
-        "cordova-plugin-camera": "^2.4.1",
-        "cordova-plugin-compat": "^1.1.0",
         "cordova-plugin-device": "^1.1.4",
         "cordova-plugin-ionic-webview": "^1.1.11",
         "cordova-plugin-splashscreen": "^4.0.3",
@@ -50,8 +48,7 @@
             "cordova-plugin-ionic-webview": {},
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-whitelist": {},
-            "ionic-plugin-keyboard": {},
-            "cordova-plugin-camera": {}
+            "ionic-plugin-keyboard": {}
         },
         "platforms": [
             "android"
