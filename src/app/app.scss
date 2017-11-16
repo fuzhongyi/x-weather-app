@@ -31,3 +31,33 @@
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale;
 }
+
+@mixin border($position) {
+  position: relative;
+  &:after {
+    content: '';
+    position: absolute;
+    #{$position}: 1px solid #ffffff;
+    width: 200%;
+    height: 200%;
+    transform-origin: 0 0;
+    transform: scale(0.5, 0.5);
+    box-sizing: border-box;
+  }
+}
+
+.border-t-1px {
+  @include border(border-top)
+}
+
+.border-r-1px {
+  @include border(border-right)
+}
+
+.border-b-1px {
+  @include border(border-bottom)
+}
+
+.border-l-1px {
+  @include border(border-left)
+}

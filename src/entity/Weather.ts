@@ -24,7 +24,7 @@ export class Weather {
   private _exerciseIndex: string;	// 运动指数
   private _dayTime: string;	      // 白天天气
   private _night: string;	        // 晚上天气
-  private _futrue: Future[];      // 未来
+  private _future: Future[];      // 未来
 
 
   get city(): string {
@@ -195,11 +195,11 @@ export class Weather {
     this._night = value;
   }
 
-  get futrue(): Future[] {
-    return this._futrue;
+  get future(): Future[] {
+    return this._future;
   }
 
-  set futrue(value: Future[]) {
-    this._futrue = value;
+  set future(value: Future[]) {
+    this._future = value;
   }
 }

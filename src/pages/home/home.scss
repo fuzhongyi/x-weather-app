@@ -31,6 +31,7 @@ page-home {
         font-size: 2rem;
       }
       .mid {
+        margin-top: 50px;
         text-align: center;
         height: 200px;
         ion-col[col-7] {
@@ -40,8 +41,8 @@ page-home {
           display: flex;
           justify-content: center;
           align-items: center;
-          .mid-right{
-            div{
+          .mid-right {
+            div {
               margin-bottom: 10px;
             }
             .temperature {
@@ -56,12 +57,48 @@ page-home {
           }
         }
       }
-      .airCondition{
+      .airCondition {
         text-align: center;
+        padding-bottom: 5px;
+        span {
+          display: inline-block;
+          text-indent: 3px;
+        }
+      }
+      .index {
+        text-align: center;
+        padding: 10px 0;
+        div {
+          margin-top: 5px;
+        }
+      }
+    }
+    .future {
+      background-color: transparent;
+      ion-item {
+        display: flex;
+        padding-right: 16px;
+        background-color: transparent;
+        color: #ffffff;
+        ion-label {
+          display: flex;
+          .data {
+            flex: 100px 0 0;
+            text-align: left;
+          }
+          .day-time {
+            flex: 1;
+            text-align: center;
+          }
+          .temperature {
+            flex: 0 0 100px;
+            text-align: right;
+          }
+        }
+
       }
     }
   }
-
 }
 
 

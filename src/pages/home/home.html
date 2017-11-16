@@ -1,11 +1,11 @@
-<ion-content padding>
+<ion-content *ngIf="weather">
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingText="松手刷新"
       refreshingText="正在刷新">
     </ion-refresher-content>
   </ion-refresher>
-  <ion-grid *ngIf="weather">
+  <ion-grid>
     <ion-row class="city">
       <ion-col col-12>{{weather.city}}</ion-col>
     </ion-row>
@@ -24,11 +24,38 @@
         </div>
       </ion-col>
     </ion-row>
-    <ion-row class="airCondition">
+    <ion-row class="airCondition border-b-1px">
       <ion-col>
         <custom-icon text="icon-huanjingxinxi-" [color]="airColor"></custom-icon>
-        <span>{{weather.airCondition}}</span>
+        <span>{{weather.pollutionIndex +' · '+ weather.airCondition}}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row class="index">
+      <ion-col col-6>
+        <custom-icon text="icon-fengxiang" size="3rem"></custom-icon>
+        <div>{{weather.wind}}</div>
+      </ion-col>
+      <ion-col col-6>
+        <custom-icon text="icon-wenshidu" size="3rem"></custom-icon>
+        <div>{{weather.humidity}}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="index">
+      <ion-col col-6>
+        <custom-icon text="icon-chuanyizhishu" size="3rem"></custom-icon>
+        <div>{{weather.dressingIndex}}</div>
+      </ion-col>
+      <ion-col col-6>
+        <custom-icon text="icon-yundong" size="3rem"></custom-icon>
+        <div>{{weather.exerciseIndex}}</div>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-list class="future">
+    <ion-item *ngFor="let item of weather.future">
+      <span class="data">{{item.date.substr(5)+' '+item.week}}</span>
+      <custom-icon class="day-time" [text]="item.dayTime|iconFormat"></custom-icon>
+      <span class="temperature">{{item.temperature}}</span>
+    </ion-item>
+  </ion-list>
 </ion-content>
