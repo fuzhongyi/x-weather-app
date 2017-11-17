@@ -9,6 +9,7 @@ import {CustomIconComponent} from '../components/custom-icon/custom-icon';
 
 // 页面
 import {HomePage} from '../pages/home/home';
+import {CityPage} from '../pages/city/city';
 
 // 过滤器
 import  {PipesModule}  from '../pipes/pipes.module'
@@ -21,18 +22,24 @@ import {Network} from '@ionic-native/network';
   declarations: [
     MyApp,
     HomePage,
+    CityPage,
     CustomIconComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp,{
+      backButtonText: '',
+      backButtonIcon: 'ios-arrow-back',
+      pageTransition: 'ios-transition'
+    }),
     PipesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
+    CityPage,
     CustomIconComponent
   ],
   providers: [
