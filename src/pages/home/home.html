@@ -1,4 +1,14 @@
-<ion-content *ngIf="weather">
+<ion-header>
+  <ion-navbar color='lightblue'>
+    <ion-buttons text-center>
+      <button ion-button (click)="goCity()">
+        <ion-icon name="pin"></ion-icon>
+        {{weather&&weather.city}}
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingText="松手刷新"
@@ -6,17 +16,14 @@
     </ion-refresher-content>
   </ion-refresher>
   <ion-grid>
-    <ion-row class="city">
-      <ion-col col-12>{{weather.city}}</ion-col>
-    </ion-row>
     <ion-row class="mid">
       <ion-col col-7>
-        <custom-icon [text]="weather.weather|iconFormat" size="30vw"></custom-icon>
+        <custom-icon [text]="weather.weather|iconFormat" size="10rem"></custom-icon>
       </ion-col>
       <ion-col col-5>
         <div class="mid-right">
           <div class="temperature">
-            <span>{{weather.temperature.replace("℃","")}}</span>
+            <span>{{weather.temperature&&weather.temperature.replace("℃","")}}</span>
             <span>℃</span>
           </div>
           <div class="weather">{{weather.weather}}</div>

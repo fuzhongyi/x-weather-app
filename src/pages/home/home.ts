@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {Weather} from '../../entity/Weather';
+import {NavController} from 'ionic-angular';
+import {CityPage} from '../../pages/city/city';
 
 @Component({
   selector: 'page-home',
@@ -9,10 +11,10 @@ import {Weather} from '../../entity/Weather';
 })
 export class HomePage {
   ip: string;
-  weather: Weather;
+  weather: Weather = new Weather();
   airColor: string;
 
-  constructor(private http: Http) {
+  constructor(public navCtrl: NavController, private http: Http) {
     this.getIp();
     this.getWeather();
   }
@@ -64,4 +66,11 @@ export class HomePage {
     }
     return color;
   }
+
+  goCity() {
+    this.navCtrl.push(CityPage, {
+      animation: 'ios-transition'
+    });
+  }
+
 }
