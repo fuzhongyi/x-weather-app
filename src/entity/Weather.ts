@@ -3,28 +3,28 @@ import {Future} from './Future';
 
 @Injectable()
 export class Weather {
-  private _city: string;	        // 城市
-  private _airCondition:string;   // 空气指数
-  private _coldIndex: string;     // 感冒指数
-  private _updateTime: string;	  // 更新时间
-  private _date: string;	        // 日期
-  private _distrct: string;	      // 区县
-  private _dressingIndex: string;	// 穿衣指数
-  private _humidity: string;	    // 湿度
-  private _pollutionIndex: string;// 空气质量指数
-  private _province: string;	    // 省份
-  private _sunset: string;	      // 日落时间
-  private _sunrise: string;	      // 日出时间
-  private _temperature: string;	  // 温度
-  private _time: string;          // 时间
-  private _washIndex: string;	    // 洗车指数
-  private _weather: string;       // 天气
-  private _week: string;          // 星期
-  private _wind: string;	        // 风向
-  private _exerciseIndex: string;	// 运动指数
-  private _dayTime: string;	      // 白天天气
-  private _night: string;	        // 晚上天气
-  private _future: Future[];      // 未来
+  private _city: string;	                // 城市
+  private _airCondition: string = "0";    // 空气指数
+  private _coldIndex: string = "0";       // 感冒指数
+  private _updateTime: string;	          // 更新时间
+  private _date: string;	                // 日期
+  private _distrct: string;	              // 区县
+  private _dressingIndex: string = "——";	// 穿衣指数
+  private _humidity: string = "——";	      // 湿度
+  private _pollutionIndex: string = "—";  // 空气质量指数
+  private _province: string;	            // 省份
+  private _sunset: string;	              // 日落时间
+  private _sunrise: string;	              // 日出时间
+  private _temperature: string = "0";	    // 温度
+  private _time: string = "——";           // 时间
+  private _washIndex: string;	            // 洗车指数
+  private _weather: string;               // 天气
+  private _week: string;                  // 星期
+  private _wind: string = "__";           // 风向
+  private _exerciseIndex: string = "——";	// 运动指数
+  private _dayTime: string;	              // 白天天气
+  private _night: string;	                // 晚上天气
+  private _future: Future[];              // 未来
 
 
   get city(): string {

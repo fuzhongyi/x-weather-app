@@ -17,6 +17,7 @@ import  {PipesModule}  from '../pipes/pipes.module'
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {Network} from '@ionic-native/network';
+import { WeatherServiceProvider } from '../providers/weather-service/weather-service';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {Network} from '@ionic-native/network';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Network
+    Network,
+    WeatherServiceProvider
   ]
 })
 export class AppModule {

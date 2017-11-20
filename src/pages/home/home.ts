@@ -1,46 +1,73 @@
 import {Component} from '@angular/core';
-import {Http, Response} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {Weather} from '../../entity/Weather';
-import {NavController} from 'ionic-angular';
+import {NavController, LoadingController, NavParams} from 'ionic-angular';
 import {CityPage} from '../../pages/city/city';
+import {WeatherServiceProvider} from '../../providers/weather-service/weather-service';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
+  providers: [WeatherServiceProvider]
 })
 export class HomePage {
-  ip: string;
-  weather: Weather = new Weather();
-  airColor: string;
+  weather: Weather = new Weather(); // 天气信息
+  airColor: string;                 // 空气质量颜色
+  city: string;                     // 区县
+  province: string;                 // 省份
 
-  constructor(public navCtrl: NavController, private http: Http) {
-    this.getIp();
-    this.getWeather();
+  constructor(public navCtrl: NavController,
+              public weatherService: WeatherServiceProvider,
+              public loadingCtrl: LoadingController,
+              public navParams: NavParams) {
+    this.city = this.navParams.get("city");
+    this.province = this.navParams.get("province");
+    if (this.city) {
+      this.getWeatherByCity(this.city, this.province);
+    } else {
+      this.getWeatherByIp();
+    }
   }
 
-  getIp() {
-    this.http.request('http://ipv4.myexternalip.com/json')
-      .toPromise()
-      .then((res: Response) => {
-        this.ip = res.json().ip;
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }
-
-  getWeather() {
-    this.http.request('https://bird.ioliu.cn/v1/?url=http://apicloud.mob.com/v1/weather/ip?key=223c4f4a12780&ip=125.71.28.231')
-      .toPromise()
-      .then((res: Response) => {
-        this.weather = res.json().result[0];
+  getWeatherByIp() {
+    let loading = this.loadingCtrl.create({
+      content: '定位中...'
+    });
+    loading.present();
+    this.weatherService.qryWeatherByIp("125.71.28.231").then((data: Weather) => {
+        // this.city = data.city;
+        // this.province = data.province;
+        this.weather = data;
         this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
-        console.log(this.weather.future);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+        loading.dismiss();
+      }
+    );
+    // this.weatherService.getIp()
+    //   .then((data: string) => {
+    //     return this.weatherService.qryWeatherByIp(data);
+    //   })
+    //   .then((data: Weather) => {
+    //       this.weather = data;
+    //       this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
+    //       loading.dismiss();
+    //     }
+    //   )
+  }
+
+  getWeatherByCity(city: string, province?: string) {
+    let loading = this.loadingCtrl.create({
+      content: '数据加载中...'
+    });
+    loading.present();
+    this.weatherService.qryWeatherByCity(city, province).then((data: Weather) => {
+        // this.city = data.city;
+        // this.province = data.province;
+        console.log(data);
+        this.weather = data;
+        this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
+        loading.dismiss();
+      }
+    );
   }
 
   doRefresh(refresher) {

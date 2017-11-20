@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {HomePage} from '../../pages/home/home';
 
 /**
  * Generated class for the CityPage page.
@@ -24,4 +25,14 @@ export class CityPage {
     console.log('ionViewDidLoad CityPage');
   }
 
+  goCheck(city: string, province?: string) {
+    this.navCtrl.push(
+      HomePage,
+      {
+        city: city,
+        province: province
+      }, {
+        direction: 'back'
+      })
+  }
 }
