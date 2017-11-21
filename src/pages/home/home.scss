@@ -12,32 +12,9 @@ page-home {
     }
   }
 
-  .content-md {
+  .content  {
     background-color: #3BA4D4;
     color: #ffffff;
-    .scroll-content {
-      border-top: none;
-    }
-    ion-refresher {
-      .refresher-pulling {
-        .refresher-pulling-icon ion-icon {
-          color: #ffffff;
-        }
-        .refresher-pulling-text {
-          font-size: 12px;
-          color: #ffffff;
-        }
-      }
-      .refresher-refreshing {
-        .refresher-refreshing-icon circle {
-          stroke: #ffffff;
-        }
-        .refresher-refreshing-text {
-          font-size: 12px;
-          color: #ffffff;
-        }
-      }
-    }
     ion-grid {
       .mid {
         margin-top: 50px;

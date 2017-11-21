@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import {Weather} from '../../entity/Weather';
-import {NavController, LoadingController, NavParams} from 'ionic-angular';
+import {NavController, LoadingController, ToastController} from 'ionic-angular';
 import {CityPage} from '../../pages/city/city';
 import {WeatherServiceProvider} from '../../providers/weather-service/weather-service';
 
@@ -19,13 +19,26 @@ export class HomePage {
   constructor(public navCtrl: NavController,
               public weatherService: WeatherServiceProvider,
               public loadingCtrl: LoadingController,
-              public navParams: NavParams) {
-    this.city = this.navParams.get("city");
-    this.province = this.navParams.get("province");
+              private toast: ToastController) {
+  }
+
+  ionViewDidLoad() {
     if (this.city) {
       this.getWeatherByCity(this.city, this.province);
     } else {
       this.getWeatherByIp();
+    }
+  }
+
+  ionViewDidEnter() {
+    let city: string = localStorage.getItem("city");
+    let province: string = localStorage.getItem("province");
+    console.log(city, province);
+    console.log(this.city, this.province);
+    if (this.city !== city || this.province !== province) {
+      this.city = city;
+      this.province = province;
+      this.getWeatherByCity(this.city, this.province);
     }
   }
 
@@ -35,8 +48,8 @@ export class HomePage {
     });
     loading.present();
     this.weatherService.qryWeatherByIp("125.71.28.231").then((data: Weather) => {
-        // this.city = data.city;
-        // this.province = data.province;
+        this.city = data.city;
+        this.province = data.province;
         this.weather = data;
         this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
         loading.dismiss();
@@ -71,9 +84,18 @@ export class HomePage {
   }
 
   doRefresh(refresher) {
-    setTimeout(() => {
-      refresher.complete();
-    }, 2000);
+    let toast = this.toast.create({
+      message: '刚刚更新 👻',
+      duration: 3000,
+      position: 'bottom'
+    });
+    this.weatherService.qryWeatherByCity(this.city, this.province).then((data: Weather) => {
+        this.weather = data;
+        this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
+        toast.present();
+        refresher.complete();
+      }
+    );
   }
 
   pollutionColor(index) {

@@ -10,6 +10,7 @@ import {CustomIconComponent} from '../components/custom-icon/custom-icon';
 // 页面
 import {HomePage} from '../pages/home/home';
 import {CityPage} from '../pages/city/city';
+import {CityListPage} from '../pages/city-list/city-list';
 
 // 过滤器
 import  {PipesModule}  from '../pipes/pipes.module'
@@ -17,19 +18,20 @@ import  {PipesModule}  from '../pipes/pipes.module'
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {Network} from '@ionic-native/network';
-import { WeatherServiceProvider } from '../providers/weather-service/weather-service';
+import {WeatherServiceProvider} from '../providers/weather-service/weather-service';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     CityPage,
+    CityListPage,
     CustomIconComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp,{
+    IonicModule.forRoot(MyApp, {
       backButtonText: '',
       backButtonIcon: 'ios-arrow-back',
       pageTransition: 'ios-transition'
@@ -41,6 +43,7 @@ import { WeatherServiceProvider } from '../providers/weather-service/weather-ser
     MyApp,
     HomePage,
     CityPage,
+    CityListPage,
     CustomIconComponent
   ],
   providers: [

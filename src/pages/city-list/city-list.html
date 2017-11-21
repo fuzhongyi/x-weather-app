@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-navbar color="lightblue">
+    <ion-title>CityList</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar></ion-searchbar>
+  <ion-list>
+    <ion-item-group *ngFor="let item of citys">
+      <ion-item-divider color="light">{{item.province}}</ion-item-divider>
+      <ion-item *ngFor="let city of item.city">
+        {{city.city}}
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

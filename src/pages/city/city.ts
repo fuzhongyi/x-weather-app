@@ -1,13 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-import {HomePage} from '../../pages/home/home';
-
-/**
- * Generated class for the CityPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {CityListPage} from '../city-list/city-list';
 
 @IonicPage({
   name: 'city'
@@ -18,7 +11,7 @@ import {HomePage} from '../../pages/home/home';
 })
 export class CityPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,) {
   }
 
   ionViewDidLoad() {
@@ -26,13 +19,12 @@ export class CityPage {
   }
 
   goCheck(city: string, province?: string) {
-    this.navCtrl.push(
-      HomePage,
-      {
-        city: city,
-        province: province
-      }, {
-        direction: 'back'
-      })
+    localStorage.setItem("city", city);
+    localStorage.setItem("province", province);
+    this.navCtrl.pop();
+  }
+
+  cityList(){
+    this.navCtrl.push(CityListPage);
   }
 }
