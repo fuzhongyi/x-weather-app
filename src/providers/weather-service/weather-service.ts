@@ -63,7 +63,6 @@ export class WeatherServiceProvider {
         .map(res => res.json())
         .subscribe(data => {
           this.weather = data.result[0];
-          console.log(this.weather)
           resolve(this.weather);
         })
     });

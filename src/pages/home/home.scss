@@ -12,7 +12,7 @@ page-home {
     }
   }
 
-  .content  {
+  .content {
     background-color: #3BA4D4;
     color: #ffffff;
     ion-grid {
@@ -32,11 +32,14 @@ page-home {
               margin-bottom: 10px;
             }
             .temperature {
+              position: relative;
               span:first-child {
                 font-size: 6rem;
               }
               span:last-child {
-                vertical-align: top;
+                position: absolute;
+                top: 5px;
+                right: -10px;
                 font-size: 1.2rem;
               }
             }
@@ -45,13 +48,14 @@ page-home {
       }
       .airCondition {
         text-align: center;
-        padding-bottom: 30px;
+        padding-bottom: 10px;
         span {
           display: inline-block;
           text-indent: 3px;
         }
       }
       .index {
+        height: 100px;
         text-align: center;
         padding: 10px 0;
         div {

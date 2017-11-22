@@ -33,8 +33,6 @@ export class HomePage {
   ionViewDidEnter() {
     let city: string = localStorage.getItem("city");
     let province: string = localStorage.getItem("province");
-    console.log(city, province);
-    console.log(this.city, this.province);
     if (this.city !== city || this.province !== province) {
       this.city = city;
       this.province = province;
@@ -73,14 +71,20 @@ export class HomePage {
     });
     loading.present();
     this.weatherService.qryWeatherByCity(city, province).then((data: Weather) => {
-        // this.city = data.city;
-        // this.province = data.province;
-        console.log(data);
+        this.city = data.city;
+        this.province = data.province;
         this.weather = data;
         this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
         loading.dismiss();
       }
-    );
+    ).catch(()=>{
+      this.toast.create({
+        message: '数据加载失败 😭',
+        duration: 3000,
+        position: 'bottom'
+      });
+      loading.present();
+    });
   }
 
   doRefresh(refresher) {
