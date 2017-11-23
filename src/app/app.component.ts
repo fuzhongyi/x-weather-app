@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Platform} from 'ionic-angular';
+import {Platform, ToastController} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {Network} from '@ionic-native/network';
@@ -12,13 +12,26 @@ import {HomePage} from '../pages/home/home';
 export class MyApp {
   rootPage: any = HomePage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, network: Network) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, network: Network, toast: ToastController) {
     network.onDisconnect().subscribe(() => {
-      status = 'network was disconnected :-(';
+      toast.create({
+        message: '网络不在了 😭',
+        duration: 3000,
+        position: 'bottom'
+      }).present();
     });
     network.onConnect().subscribe(() => {
-      status = `${JSON.stringify(network.type)} connected!`;
+      toast.create({
+        message: '网络又回来了 😍',
+        duration: 3000,
+        position: 'bottom'
+      }).present();
     });
+    let myCitys: any[] = localStorage.getItem("myCitys") ? JSON.parse(localStorage.getItem("myCitys")) : [];
+    localStorage.setItem("myCitys", JSON.stringify(myCitys));
+    console.log(myCitys);
+    let position: any[] = localStorage.getItem("position") ? JSON.parse(localStorage.getItem("position")) : {};
+    localStorage.setItem("position", JSON.stringify(position));
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

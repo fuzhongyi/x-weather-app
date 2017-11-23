@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController} from 'ionic-angular';
 import {WeatherServiceProvider} from '../../providers/weather-service/weather-service';
 
 @IonicPage()
@@ -14,18 +14,17 @@ export class CityListPage {
   filter: object[] = [];
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
               public weatherService: WeatherServiceProvider) {
   }
 
-  ionViewDidEnter() {
+  ionViewDidLoad() {
     let citys: string = sessionStorage.getItem("citys");
     if (citys) {
       this.citys = JSON.parse(citys);
     } else {
       this.weatherService.qryCitys().then((data: object[]) => {
         let handleData: any[] = [];
-        data.forEach((v: any, i: number) => {
+        data.forEach((v: any) => {
           let city: any = {province: "", district: []};
           city.province = v.province;
           let district: object[] = [];
@@ -41,12 +40,9 @@ export class CityListPage {
         this.citys = handleData;
       })
     }
-    this.filter = this.citys;
   }
 
-
   search(ev: any) {
-    console.log(1);
     let searchText = ev.target.value;
     if (searchText && searchText.trim() != '') {
       let cityCopy = JSON.parse(JSON.stringify(this.citys));
@@ -69,8 +65,18 @@ export class CityListPage {
         }
       })
     } else {
-      this.filter = this.citys;
+      this.filter = [];
       return false;
     }
+  }
+
+  addToMyCitys(city: string, province?: string) {
+    localStorage.setItem("city", city);
+    localStorage.setItem("province", province);
+    let myCitys: any[] = JSON.parse(localStorage.getItem("myCitys"));
+    console.log(myCitys)
+    myCitys.push({city, province});
+    localStorage.setItem("myCitys", JSON.stringify(myCitys));
+    this.navCtrl.popToRoot();
   }
 }

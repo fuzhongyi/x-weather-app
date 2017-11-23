@@ -6,15 +6,19 @@
 
 <ion-content>
   <ion-list>
-    <ion-item (click)="goCheck('成都')">
-      <ion-label>成都</ion-label>
-      <ion-toggle checked="true" color="secondary"></ion-toggle>
+    <ion-item (click)="goCheck(position.city,position.province)">
+      <ion-label>{{!isPos?loadingText:position.city}}</ion-label>
+      <ion-toggle [checked]="isPos" color="secondary" (click)="togglePositon()"></ion-toggle>
     </ion-item>
-    <ion-item (click)="goCheck('大足')">
-      <ion-label>大足</ion-label>
+    <ion-item (press)="removeCity(city.city,city.province)"
+              (click)="goCheck(city.city,city.province)"
+              *ngFor="let city of myCitys">
+      <ion-label>{{city.city}}</ion-label>
     </ion-item>
   </ion-list>
   <ion-fab right bottom (click)="cityList()">
-    <button ion-fab mini color="secondary"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab mini color="secondary">
+      <ion-icon name="add"></ion-icon>
+    </button>
   </ion-fab>
 </ion-content>

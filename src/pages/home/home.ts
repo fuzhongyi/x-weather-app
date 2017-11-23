@@ -15,6 +15,7 @@ export class HomePage {
   airColor: string;                 // 空气质量颜色
   city: string;                     // 区县
   province: string;                 // 省份
+  isFirst: boolean = true;          // 第一次进入
 
   constructor(public navCtrl: NavController,
               public weatherService: WeatherServiceProvider,
@@ -23,20 +24,22 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    if (this.city) {
-      this.getWeatherByCity(this.city, this.province);
-    } else {
+    let city: string = localStorage.getItem("city");
+    let province: string = localStorage.getItem("province");
+    if (!city || !province) {
+      this.isFirst = false;
       this.getWeatherByIp();
     }
   }
 
   ionViewDidEnter() {
+    if (!this.isFirst) {
+      return;
+    }
     let city: string = localStorage.getItem("city");
     let province: string = localStorage.getItem("province");
-    if (this.city !== city || this.province !== province) {
-      this.city = city;
-      this.province = province;
-      this.getWeatherByCity(this.city, this.province);
+    if ((city || province) && (this.city !== city || this.province !== province)) {
+      this.getWeatherByCity(city, province);
     }
   }
 
@@ -46,6 +49,7 @@ export class HomePage {
     });
     loading.present();
     this.weatherService.qryWeatherByIp("125.71.28.231").then((data: Weather) => {
+        localStorage.setItem("position", JSON.stringify({city: data.city, province: data.province}));
         this.city = data.city;
         this.province = data.province;
         this.weather = data;
@@ -77,12 +81,12 @@ export class HomePage {
         this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
         loading.dismiss();
       }
-    ).catch(()=>{
+    ).catch(() => {
       this.toast.create({
         message: '数据加载失败 😭',
         duration: 3000,
         position: 'bottom'
-      });
+      }).present();
       loading.present();
     });
   }
@@ -99,7 +103,13 @@ export class HomePage {
         toast.present();
         refresher.complete();
       }
-    );
+    ).catch(() => {
+      this.toast.create({
+        message: '数据加载失败 😭',
+        duration: 3000,
+        position: 'bottom'
+      }).present();
+    });
   }
 
   pollutionColor(index) {
@@ -121,9 +131,6 @@ export class HomePage {
   }
 
   goCity() {
-    this.navCtrl.push(CityPage, {
-      animation: 'ios-transition'
-    });
+    this.navCtrl.push(CityPage);
   }
-
 }

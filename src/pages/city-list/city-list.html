@@ -10,7 +10,7 @@
   <ion-list>
     <ion-item-group *ngFor="let city of filter">
       <ion-item-divider color="light">{{city.province}}</ion-item-divider>
-      <ion-item *ngFor="let district of city.district">
+      <ion-item *ngFor="let district of city.district" (click)="addToMyCitys(district,city.province)">
         {{district}}
       </ion-item>
     </ion-item-group>
