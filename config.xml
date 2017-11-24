@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>知天文</name>
+    <name>x</name>
     <description>就是一款查看天气的APP</description>
     <author email="fuzy450@foxmail.com" href="http://xyue.me/">歆月</author>
-    <content original-src="index.html" src="http://133.37.147.104:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

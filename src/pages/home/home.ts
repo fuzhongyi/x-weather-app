@@ -15,7 +15,6 @@ export class HomePage {
   airColor: string;                 // 空气质量颜色
   city: string;                     // 区县
   province: string;                 // 省份
-  isFirst: boolean = true;          // 第一次进入
 
   constructor(public navCtrl: NavController,
               public weatherService: WeatherServiceProvider,
@@ -27,15 +26,11 @@ export class HomePage {
     let city: string = localStorage.getItem("city");
     let province: string = localStorage.getItem("province");
     if (!city || !province) {
-      this.isFirst = false;
       this.getWeatherByIp();
     }
   }
 
   ionViewDidEnter() {
-    if (!this.isFirst) {
-      return;
-    }
     let city: string = localStorage.getItem("city");
     let province: string = localStorage.getItem("province");
     if ((city || province) && (this.city !== city || this.province !== province)) {
@@ -48,25 +43,48 @@ export class HomePage {
       content: '定位中...'
     });
     loading.present();
-    this.weatherService.qryWeatherByIp("125.71.28.231").then((data: Weather) => {
-        localStorage.setItem("position", JSON.stringify({city: data.city, province: data.province}));
-        this.city = data.city;
-        this.province = data.province;
-        this.weather = data;
-        this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
-        loading.dismiss();
-      }
-    );
-    // this.weatherService.getIp()
-    //   .then((data: string) => {
-    //     return this.weatherService.qryWeatherByIp(data);
-    //   })
-    //   .then((data: Weather) => {
-    //       this.weather = data;
+    // this.weatherService.qryWeatherByIp("125.71.28.231").then(data => {
+    //     loading.dismiss();
+    //     if (data.retCode === this.weatherService.SUCCESS) {
+    //       let result: Weather = data.result[0];
+    //       localStorage.setItem("position", JSON.stringify({city: result.city, province: result.province}));
+    //       this.city = result.city;
+    //       this.province = result.province;
+    //       this.weather = result;
     //       this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
-    //       loading.dismiss();
+    //     } else {
+    //       this.toast.create({
+    //         message: `${data.msg} 😭`,
+    //         duration: 3000,
+    //         position: 'bottom'
+    //       }).present();
     //     }
-    //   )
+    //   }
+    // ).catch(error => {
+    //   loading.dismiss();
+    // })
+    this.weatherService.getIp()
+      .then((data: string) => this.weatherService.qryWeatherByIp(data))
+      .then(data => {
+          loading.dismiss();
+          if (data.retCode === this.weatherService.SUCCESS) {
+            let result: Weather = data.result[0];
+            localStorage.setItem("position", JSON.stringify({city: result.city, province: result.province}));
+            this.city = result.city;
+            this.province = result.province;
+            this.weather = result;
+            this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
+          } else {
+            this.toast.create({
+              message: `${data.msg} 😭`,
+              duration: 3000,
+              position: 'bottom'
+            }).present();
+          }
+        }
+      ).catch(error => {
+      loading.dismiss();
+    })
   }
 
   getWeatherByCity(city: string, province?: string) {
@@ -74,41 +92,50 @@ export class HomePage {
       content: '数据加载中...'
     });
     loading.present();
-    this.weatherService.qryWeatherByCity(city, province).then((data: Weather) => {
-        this.city = data.city;
-        this.province = data.province;
-        this.weather = data;
-        this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
+    this.weatherService.qryWeatherByCity(city, province).then(data => {
         loading.dismiss();
+        if (data.retCode === this.weatherService.SUCCESS) {
+          let result: Weather = data.result[0];
+          this.city = result.city;
+          this.province = result.province;
+          this.weather = result;
+          this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
+        } else {
+          this.toast.create({
+            message: `${data.msg} 😭`,
+            duration: 3000,
+            position: 'bottom'
+          }).present();
+        }
       }
     ).catch(() => {
-      this.toast.create({
-        message: '数据加载失败 😭',
-        duration: 3000,
-        position: 'bottom'
-      }).present();
-      loading.present();
+      loading.dismiss();
     });
   }
 
   doRefresh(refresher) {
-    let toast = this.toast.create({
-      message: '刚刚更新 👻',
-      duration: 3000,
-      position: 'bottom'
-    });
-    this.weatherService.qryWeatherByCity(this.city, this.province).then((data: Weather) => {
-        this.weather = data;
-        this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
-        toast.present();
+    this.weatherService.qryWeatherByCity(this.city, this.province).then(data => {
         refresher.complete();
+        if (data.retCode === this.weatherService.SUCCESS) {
+          let result: Weather = data.result[0];
+          this.weather = result;
+          this.airColor = this.pollutionColor(parseInt(this.weather.pollutionIndex));
+          this.toast.create({
+            message: '更新成功 👻',
+            duration: 3000,
+            position: 'bottom'
+          }).present();
+
+        } else {
+          this.toast.create({
+            message: `${data.msg} 😭`,
+            duration: 3000,
+            position: 'bottom'
+          }).present();
+        }
       }
     ).catch(() => {
-      this.toast.create({
-        message: '数据加载失败 😭',
-        duration: 3000,
-        position: 'bottom'
-      }).present();
+      refresher.complete();
     });
   }
 

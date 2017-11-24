@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController} from 'ionic-angular';
+import {IonicPage, NavController, ToastController} from 'ionic-angular';
 import {WeatherServiceProvider} from '../../providers/weather-service/weather-service';
 
 @IonicPage()
@@ -14,7 +14,8 @@ export class CityListPage {
   filter: object[] = [];
 
   constructor(public navCtrl: NavController,
-              public weatherService: WeatherServiceProvider) {
+              public weatherService: WeatherServiceProvider,
+              private toast: ToastController) {
   }
 
   ionViewDidLoad() {
@@ -38,7 +39,14 @@ export class CityListPage {
         });
         sessionStorage.setItem("citys", JSON.stringify(handleData));
         this.citys = handleData;
-      })
+      }).catch(error => {
+          this.toast.create({
+            message: `城市列表信息加载失败 😭`,
+            duration: 3000,
+            position: 'bottom'
+          }).present();
+        }
+      )
     }
   }
 
@@ -74,9 +82,8 @@ export class CityListPage {
     localStorage.setItem("city", city);
     localStorage.setItem("province", province);
     let myCitys: any[] = JSON.parse(localStorage.getItem("myCitys"));
-    console.log(myCitys)
     myCitys.push({city, province});
     localStorage.setItem("myCitys", JSON.stringify(myCitys));
-    this.navCtrl.popToRoot();
+    this.navCtrl.popToRoot({animate: true, animation: 'md-transition'});
   }
 }

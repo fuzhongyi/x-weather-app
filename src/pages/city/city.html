@@ -7,8 +7,15 @@
 <ion-content>
   <ion-list>
     <ion-item (click)="goCheck(position.city,position.province)">
-      <ion-label>{{!isPos?loadingText:position.city}}</ion-label>
-      <ion-toggle [checked]="isPos" color="secondary" (click)="togglePositon()"></ion-toggle>
+      <ion-label>
+        {{text}}
+      </ion-label>
+      <button ion-button icon-only item-end small round outline color="secondary"
+              (click)="$event.stopPropagation();refresPos()"
+              [ngClass]="{'animate-circle':text==='正在定位'}">
+        <ion-icon name="refresh">
+        </ion-icon>
+      </button>
     </ion-item>
     <ion-item (press)="removeCity(city.city,city.province)"
               (click)="goCheck(city.city,city.province)"

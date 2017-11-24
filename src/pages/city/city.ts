@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Weather} from '../../entity/Weather';
-import {IonicPage, NavController, ActionSheetController} from 'ionic-angular';
+import {IonicPage, NavController, ActionSheetController, ToastController} from 'ionic-angular';
 import {CityListPage} from '../city-list/city-list';
 import {WeatherServiceProvider} from '../../providers/weather-service/weather-service';
 
@@ -16,20 +16,18 @@ export class CityPage {
 
   myCitys: object[];
   position: any;
-  loadingText: string = "自动定位";
-  isPos: boolean = false;
+  text: string;
 
   constructor(public navCtrl: NavController,
               public actionSheet: ActionSheetController,
-              public weatherService: WeatherServiceProvider) {
+              public weatherService: WeatherServiceProvider,
+              private toast: ToastController) {
   }
 
   ionViewDidLoad() {
     let pos = localStorage.getItem("position");
-    if (pos !== '{}') {
-      this.isPos = true;
-    }
     this.position = JSON.parse(pos);
+    this.text = this.position.city + '（当前城市）';
     this.myCitys = JSON.parse(localStorage.getItem("myCitys"));
   }
 
@@ -64,24 +62,32 @@ export class CityPage {
     actionSheet.present();
   }
 
-  togglePositon() {
-    if (!this.isPos) {
-      this.loadingText = "正在定位";
-      this.weatherService.getIp()
-        .then((data: string) => {
-          return this.weatherService.qryWeatherByIp(data);
-        })
-        .then((data: Weather) => {
-            let city: string = data.city;
-            let province: string = data.province;
-            localStorage.setItem("position", JSON.stringify({city, province}));
-            this.isPos = true;
-          }
-        )
-    } else {
-      this.loadingText = "自动定位";
-      localStorage.setItem("position", JSON.stringify({}));
-      this.isPos = false;
+  refresPos() {
+    if (this.text === "正在定位") {
+      this.toast.create({
+        message: '定位中，请耐心等待',
+        duration: 3000,
+        position: 'bottom'
+      }).present();
+      return false;
     }
+    this.text = "正在定位";
+    this.weatherService.getIp()
+      .then((data: string) => {
+        return this.weatherService.qryWeatherByIp(data);
+      })
+      .then(data => {
+          if (data.retCode === this.weatherService.SUCCESS) {
+            let result: Weather = data.result[0];
+            let city: string = result.city;
+            let province: string = result.province;
+            this.text = city + '（当前城市）';
+            localStorage.setItem("position", JSON.stringify({city, province}));
+          } else {
+            this.text = "定位失败";
+          }
+        }
+      )
+      .catch(error => this.text = "定位失败")
   }
 }

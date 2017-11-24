@@ -29,7 +29,6 @@ export class MyApp {
     });
     let myCitys: any[] = localStorage.getItem("myCitys") ? JSON.parse(localStorage.getItem("myCitys")) : [];
     localStorage.setItem("myCitys", JSON.stringify(myCitys));
-    console.log(myCitys);
     let position: any[] = localStorage.getItem("position") ? JSON.parse(localStorage.getItem("position")) : {};
     localStorage.setItem("position", JSON.stringify(position));
     platform.ready().then(() => {

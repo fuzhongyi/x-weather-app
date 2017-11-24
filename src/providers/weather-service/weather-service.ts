@@ -1,16 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
-import 'rxjs/add/operator/map';
-import {Weather} from '../../entity/Weather';
+import 'rxjs/add/operator/toPromise';
+import {ToastController} from "ionic-angular";
 
 @Injectable()
 export class WeatherServiceProvider {
 
-  ip: string;        // IP
-  weather: Weather;  // 天气数据
-  citys: object[];   // 城市列表
+  SUCCESS: string = '200';  // 成功
 
-  constructor(public http: Http) {
+  constructor(public http: Http, private toast: ToastController) {
   }
 
   /**
@@ -18,19 +16,10 @@ export class WeatherServiceProvider {
    * @returns {Promise<T>}
    */
   getIp() {
-    return new Promise((resolve, reject) => {
-      let url: string = 'http://ipv4.myexternalip.com/json';
-      this.http.get(url)
-        .map(res => res.json())
-        .subscribe(data => {
-          try {
-            this.ip = data.ip;
-            resolve(this.ip);
-          } catch (error) {
-            reject(error);
-          }
-        })
-    });
+    return this.http.get('http://ipv4.myexternalip.com/json')
+      .toPromise()
+      .then(resp => resp.json().ip)
+      .catch(this.handleError);
   }
 
   /**
@@ -40,18 +29,10 @@ export class WeatherServiceProvider {
    * @returns {Promise<T>}
    */
   qryWeatherByIp(ip: string) {
-    return new Promise((resolve, reject) => {
-      this.http.get(`https://bird.ioliu.cn/v1/?url=http://apicloud.mob.com/v1/weather/ip?key=223c4f4a12780&ip=${ip}`)
-        .map(res => res.json())
-        .subscribe(data => {
-          try {
-            this.weather = data.result[0];
-            resolve(this.weather);
-          } catch (error) {
-            reject(error);
-          }
-        })
-    });
+    return this.http.get(`https://bird.ioliu.cn/v1/?url=http://apicloud.mob.com/v1/weather/ip?key=223c4f4a12780&ip=${ip}`)
+      .toPromise()
+      .then(resp => resp.json())
+      .catch(this.handleError);
   }
 
   /**
@@ -62,22 +43,14 @@ export class WeatherServiceProvider {
    * @returns {Promise<T>}
    */
   qryWeatherByCity(city: string, province?: string) {
-    return new Promise((resolve, reject) => {
-      let url = `https://bird.ioliu.cn/v1/?url=http://apicloud.mob.com/v1/weather/query?key=223c4f4a12780&city=${city}`;
-      if (province) {
-        url += `&province=${province}`;
-      }
-      this.http.get(url)
-        .map(res => res.json())
-        .subscribe(data => {
-          try {
-            this.weather = data.result[0];
-            resolve(this.weather);
-          } catch (error) {
-            reject(error);
-          }
-        })
-    });
+    let url = `https://bird.ioliu.cn/v1/?url=http://apicloud.mob.com/v1/weather/query?key=223c4f4a12780&city=${city}`;
+    if (province) {
+      url += `&province=${province}`;
+    }
+    return this.http.get(url)
+      .toPromise()
+      .then(resp => resp.json())
+      .catch(this.handleError);
   }
 
   /**
@@ -85,18 +58,25 @@ export class WeatherServiceProvider {
    * @returns {Promise<T>}
    */
   qryCitys() {
-    return new Promise((resolve, reject) => {
-      let url = `https://bird.ioliu.cn/v1/?url=http://apicloud.mob.com/v1/weather/citys?key=223c4f4a12780`;
-      this.http.get(url)
-        .map(res => res.json())
-        .subscribe(data => {
-          try {
-            this.citys = data.result;
-            resolve(this.citys);
-          } catch (error) {
-            reject(error);
-          }
-        })
-    });
+    let url = `https://bird.ioliu.cn/v1/?url=http://apicloud.mob.com/v1/weather/citys?key=223c4f4a12780`;
+    return this.http.get(url)
+      .toPromise()
+      .then(resp => resp.json().result)
+      .catch(this.handleError);
+  }
+
+
+  /**
+   * 捕获异常并输出
+   * @param error
+   * @returns {Promise<never>}
+   */
+  private handleError(error: any): Promise<any> {
+    this.toast.create({
+      message: '网络异常，请稍后再试 😭',
+      duration: 3000,
+      position: 'bottom'
+    }).present();
+    return Promise.reject(error.message || error);
   }
 }
