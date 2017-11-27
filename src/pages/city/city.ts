@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Weather} from '../../entity/Weather';
-import {IonicPage, NavController, ActionSheetController, ToastController} from 'ionic-angular';
+import {IonicPage, NavController, ActionSheetController, ToastController, Platform} from 'ionic-angular';
 import {CityListPage} from '../city-list/city-list';
 import {WeatherServiceProvider} from '../../providers/weather-service/weather-service';
 
@@ -19,6 +19,7 @@ export class CityPage {
   text: string;
 
   constructor(public navCtrl: NavController,
+              public platform: Platform,
               public actionSheet: ActionSheetController,
               public weatherService: WeatherServiceProvider,
               private toast: ToastController) {
@@ -46,6 +47,8 @@ export class CityPage {
       buttons: [
         {
           text: '删除',
+          role: 'destructive',
+          icon: !this.platform.is('ios') ? 'trash' : null,
           handler: () => {
             let my: any[] = JSON.parse(localStorage.getItem("myCitys"));
             this.myCitys = my.filter((v) => {
@@ -56,7 +59,8 @@ export class CityPage {
         },
         {
           text: '取消',
-          role: 'cancel'
+          role: 'cancel',
+          icon: !this.platform.is('ios') ? 'close' : null
         }]
     });
     actionSheet.present();

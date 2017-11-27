@@ -33,7 +33,8 @@ import {WeatherServiceProvider} from '../providers/weather-service/weather-servi
     HttpModule,
     IonicModule.forRoot(MyApp, {
       backButtonText: '',
-      mode: 'ios'
+      backButtonIcon: 'ios-arrow-back',
+      pageTransition: 'ios-transition'
     }),
     PipesModule
   ],

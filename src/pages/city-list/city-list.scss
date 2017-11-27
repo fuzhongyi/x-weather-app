@@ -1,8 +1,7 @@
 page-city-list {
   ion-list {
-    ion-item:hover {
-      background-color: #afe2f9;
-      color: #ffffff;
+    ion-item:active {
+      background-color: #F4F4F4;
     }
   }
 }

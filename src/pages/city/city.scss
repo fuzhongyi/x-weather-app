@@ -1,15 +1,17 @@
 page-city {
   ion-list {
     ion-icon {
-      font-size: 1.5rem;
+      font-size: 1.5em;
       padding-right: 4px;
     }
-    ion-item:hover {
-      background-color: #afe2f9;
-      color: #ffffff;
+    .button-small-md {
+      width: 2.1em;
     }
-    .animate-circle{
-      animation: ion-diagnostics-spinner-rotate 600ms infinite linear;
+    ion-item:active {
+      background-color: #F4F4F4;
+    }
+    .animate-circle {
+      animation: rotate 600ms infinite linear;
     }
   }
 

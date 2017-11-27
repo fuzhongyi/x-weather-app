@@ -62,20 +62,22 @@ export class WeatherServiceProvider {
     return this.http.get(url)
       .toPromise()
       .then(resp => resp.json().result)
-      .catch(this.handleError);
+      .catch(error =>
+        this.handleError(error, this.toast)
+      );
   }
-
 
   /**
    * 捕获异常并输出
    * @param error
    * @returns {Promise<never>}
    */
-  private handleError(error: any): Promise<any> {
-    this.toast.create({
+  private handleError(error: any, toast?: ToastController): Promise<any> {
+    console.log(error)
+    toast.create({
       message: '网络异常，请稍后再试 😭',
       duration: 3000,
-      position: 'bottom'
+      position: 'top'
     }).present();
     return Promise.reject(error.message || error);
   }

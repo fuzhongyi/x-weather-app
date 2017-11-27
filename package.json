@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "author": "xyue",
     "homepage": "http://xyue.me/",
-    "private": true,
+    "private": false,
     "scripts": {
         "clean": "ionic-app-scripts clean",
         "build": "ionic-app-scripts build",
@@ -43,7 +43,7 @@
         "@ionic/app-scripts": "3.0.1",
         "typescript": "2.3.4"
     },
-    "description": "An Ionic project",
+    "description": "query weather information",
     "cordova": {
         "plugins": {
             "cordova-plugin-device": {},

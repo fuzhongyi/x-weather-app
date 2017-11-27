@@ -17,14 +17,14 @@ export class MyApp {
       toast.create({
         message: '网络不在了 😭',
         duration: 3000,
-        position: 'bottom'
+        position: 'top'
       }).present();
     });
     network.onConnect().subscribe(() => {
       toast.create({
         message: '网络又回来了 😍',
         duration: 3000,
-        position: 'bottom'
+        position: 'top'
       }).present();
     });
     let myCitys: any[] = localStorage.getItem("myCitys") ? JSON.parse(localStorage.getItem("myCitys")) : [];

@@ -11,10 +11,8 @@
         {{text}}
       </ion-label>
       <button ion-button icon-only item-end small round outline color="secondary"
-              (click)="$event.stopPropagation();refresPos()"
-              [ngClass]="{'animate-circle':text==='正在定位'}">
-        <ion-icon name="refresh">
-        </ion-icon>
+              (click)="$event.stopPropagation();refresPos()" [ngClass]="{'animate-circle':text==='正在定位'}">
+        <ion-icon name="refresh"></ion-icon>
       </button>
     </ion-item>
     <ion-item (press)="removeCity(city.city,city.province)"
