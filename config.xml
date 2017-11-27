@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>x</name>
-    <description>就是一款查看天气的APP</description>
+    <description>query weather information</description>
     <author email="fuzy450@foxmail.com" href="http://xyue.me/">歆月</author>
     <content src="index.html" />
     <access origin="*" />
@@ -20,6 +20,10 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="StatusBarBackgroundColor" value="#551b1d23" />
+    <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="ShowSplashScreen" value="true" />
+    <preference name="ShowSplashScreenSpinner" value="true" />
+    <preference name="FadeSplashScreen" value="true" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
