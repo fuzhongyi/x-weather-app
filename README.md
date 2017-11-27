@@ -24,9 +24,10 @@ $ ionic cordova build android --ant--release
 ### 下载
 ***
 * [android](http://p02hf9fn0.bkt.clouddn.com/x-weather.apk)
+
 ![](http://p02hf9fn0.bkt.clouddn.com/x-weather.png)
 
 ### 在线演示 
 ***
-[点击预览](https://fuzhongyi.github.io/x-weather-app){:target="_blank"}（请使用chrome开发者手机模式预览）
+[点击预览](https://fuzhongyi.github.io/x-weather-app)（请使用chrome开发者手机模式预览）
 
