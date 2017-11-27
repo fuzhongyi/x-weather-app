@@ -1,26 +1,34 @@
-This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
+>  基于 ionic3 构建的天气信息查询APP
 
-## How to use this template
+### 项目技术架构
+***
+*  ionic3
+*  angular4
 
-*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
+### 安装步骤
+***
+``` bash
+# 安装依赖
+$ npm install
 
-To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
+# 添加平台
+$ ionic cordova platform add android
 
-### With the Ionic CLI:
+# 运行
+$ ionic cordova run android --livereload
 
-Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
-
-```bash
-$ sudo npm install -g ionic cordova
-$ ionic start myTabs tabs
+# 打包
+$ ionic cordova build android --ant--release
 ```
 
-Then, to run it, cd into `myTabs` and run:
+### 下载
+***
 
-```bash
-$ ionic cordova platform add ios
-$ ionic cordova run ios
-```
+* [android](http://p02hf9fn0.bkt.clouddn.com/x-weather.apk)
 
-Substitute ios for android if not on a Mac.
+![](http://p02hf9fn0.bkt.clouddn.com/x-weather.png)
+
+### 在线演示 
+***
+[点击预览](https://fuzhongyi.github.io/x-weather-app){:target="_blank"}（请使用chrome开发者手机模式预览）
 
