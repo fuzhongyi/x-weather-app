@@ -1080,7 +1080,7 @@ var WeatherServiceProvider = (function () {
      * @returns {Promise<T>}
      */
     WeatherServiceProvider.prototype.getIp = function () {
-        return this.http.get('http://ipv4.myexternalip.com/json')
+        return this.http.get('//ipv4.myexternalip.com/json')
             .toPromise()
             .then(function (resp) { return resp.json().ip; })
             .catch(this.handleError);
