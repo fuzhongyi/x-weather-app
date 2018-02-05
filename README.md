@@ -31,3 +31,6 @@ $ ionic cordova build android --ant--release
 ***
 [点击预览](https://fuzhongyi.github.io/x-weather-app)（请使用chrome开发者手机模式预览）
 
+### 屏幕截图
+
+![](http://p02hf9fn0.bkt.clouddn.com/weather/screenshot/weather.gif)
